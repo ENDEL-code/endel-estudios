@@ -1,5 +1,4 @@
-/* ENDEL Estudios — main.js */
-
+/* ENDEL Estudios — main.js 
 const FORMSPREE_URL = 'https://formspree.io/f/xykobqvy';
 
 /* LOADER */
@@ -120,9 +119,7 @@ form.addEventListener('submit', async (e) => {
 
   } catch (err) {
     setLoading(false);
-    console.error('Error en el envio (Formspree):', err);
-    formError.textContent = 'No se pudo enviar. Intenta de nuevo.';
-  }
+    console.error('ER
 });
 
 btnCopy.addEventListener('click', () => {
