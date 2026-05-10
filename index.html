@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENDEL Estudios</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="apple-touch-icon" href="assets/favicon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════
+       LOADER
+  ═══════════════════════════════════════════════════════ -->
+  <div id="loader">
+    <div class="loader-inner">
+      <img src="assets/logo.png" alt="ENDEL" class="loader-logo" />
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <span class="loader-label">ENDEL<span>.</span>estudios</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <a href="#inicio" class="nav-logo">
+      <img src="assets/logo.png" alt="ENDEL" class="nav-logo-img" />
+      <span>ENDEL<span class="dot">.</span>estudios</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#portafolio">Portafolio</a></li>
+      <li><a href="#ticket" class="btn-nav">Tomar Ticket ↗</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════ -->
+  <section id="inicio" class="hero">
+    <div class="hero-bg">
+      <div class="grid-lines"></div>
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+    </div>
+
+    <!-- Logo centrado decorativo -->
+    <div class="hero-logo-bg">
+      <img src="assets/logo.png" alt="" aria-hidden="true" />
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-tag">✦ Estudio creativo digital · CDMX</span>
+      <h1 class="hero-title">
+        Diseño que<br/>
+        <span class="accent">habla</span> por<br/>
+        tu marca.
+      </h1>
+      <p class="hero-sub">
+        Transformamos ideas en experiencias digitales memorables.<br/>
+        Branding, web y contenido en un solo lugar.
+      </p>
+      <div class="hero-cta">
+        <a href="#ticket" class="btn-primary">Tomar un ticket →</a>
+        <a href="#servicios" class="btn-ghost">Ver servicios</a>
+      </div>
+    </div>
+
+    <!-- Badge circular -->
+    <div class="hero-badge">
+      <svg viewBox="0 0 200 200" class="badge-svg">
+        <path id="cp" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" fill="none"/>
+        <text font-size="18" font-family="Syne" letter-spacing="2.5" fill="var(--muted)">
+          <textPath href="#cp">✦ ENDEL · ESTUDIOS · CDMX · </textPath>
+        </text>
+      </svg>
+      <img src="assets/logo.png" alt="E" class="badge-logo" />
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       NOSOTROS / DIVIDER con logo
+  ═══════════════════════════════════════════════════════ -->
+  <div class="logo-divider">
+    <img src="assets/logo.png" alt="" />
+    <span>ENDEL<span class="dot">.</span>estudios — Creatividad con propósito</span>
+    <img src="assets/logo.png" alt="" />
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SERVICIOS
+  ═══════════════════════════════════════════════════════ -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <span class="section-label">— Lo que hacemos</span>
+      <h2 class="section-title">Servicios</h2>
+      <div class="cards-grid">
+        <div class="card fade-up">
+          <span class="card-icon">◈</span>
+          <h3>Diseño UI/UX</h3>
+          <p>Interfaces intuitivas y visualmente poderosas, centradas en la experiencia del usuario.</p>
+        </div>
+        <div class="card fade-up">
+          <span class="card-icon">⬡</span>
+          <h3>Desarrollo Web</h3>
+          <p>Sitios y apps rápidas, seguras y escalables con tecnologías modernas.</p>
+        </div>
+        <div class="card fade-up">
+          <span class="card-icon">◉</span>
+          <h3>Branding Digital</h3>
+          <p>Identidad visual completa: logo, paleta, tipografía y guía de marca.</p>
+        </div>
+        <div class="card fade-up">
+          <span class="card-icon">◇</span>
+          <h3>Contenido Creativo</h3>
+          <p>Copy, fotografía, video y motion graphics que comunican con fuerza.</p>
+        </div>
+        <div class="card fade-up">
+          <span class="card-icon">⬟</span>
+          <h3>Estrategia Digital</h3>
+          <p>Consultoría y planeación para que tu presencia digital sea efectiva y medible.</p>
+        </div>
+        <div class="card fade-up">
+          <span class="card-icon">◫</span>
+          <h3>E-Commerce</h3>
+          <p>Tiendas en línea que convierten, con catálogo y pasarela de pago integrada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       PORTAFOLIO
+  ═══════════════════════════════════════════════════════ -->
+  <section id="portafolio" class="section alt">
+    <div class="container">
+      <span class="section-label">— Nuestro trabajo</span>
+      <h2 class="section-title">Portafolio</h2>
+      <div class="portfolio-grid">
+        <div class="pi pi-lg fade-up" style="--h:200">
+          <div class="pi-content"><span class="pi-cat">Web App</span><h3>Proyecto Aurora</h3><span class="pi-arr">↗</span></div>
+        </div>
+        <div class="pi fade-up" style="--h:160">
+          <div class="pi-content"><span class="pi-cat">Branding</span><h3>Marca Nexus</h3><span class="pi-arr">↗</span></div>
+        </div>
+        <div class="pi fade-up" style="--h:240">
+          <div class="pi-content"><span class="pi-cat">E-Commerce</span><h3>Shop Vertex</h3><span class="pi-arr">↗</span></div>
+        </div>
+        <div class="pi pi-wide fade-up" style="--h:180">
+          <div class="pi-content"><span class="pi-cat">Dashboard</span><h3>Panel Lumina</h3><span class="pi-arr">↗</span></div>
+        </div>
+        <div class="pi fade-up" style="--h:220">
+          <div class="pi-content"><span class="pi-cat">UI/UX</span><h3>App Drift</h3><span class="pi-arr">↗</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       TICKET
+  ═══════════════════════════════════════════════════════ -->
+  <section id="ticket" class="section ticket-section">
+    <div class="container">
+      <span class="section-label">— Comencemos</span>
+      <h2 class="section-title">Tomar un Ticket</h2>
+      <p class="ticket-sub">Ingresa tu correo y te asignamos un ticket único irrepetible. Te respondemos en menos de 24 horas.</p>
+
+      <!-- FORM -->
+      <div class="ticket-box" id="ticketBox">
+        <div class="tbox-left">
+          <img src="assets/logo.png" alt="ENDEL" class="tbox-logo" />
+          <div class="tinfo-list">
+            <div class="tinfo-item"><span class="tinfo-ico">📍</span><div><strong>Ubicación</strong><span>Tláhuac, CDMX, México</span></div></div>
+            <div class="tinfo-item"><span class="tinfo-ico">⏱</span><div><strong>Respuesta</strong><span>Menos de 24 horas</span></div></div>
+            <div class="tinfo-item"><span class="tinfo-ico">🎫</span><div><strong>Ticket</strong><span>Código único de 8 caracteres</span></div></div>
+            <div class="tinfo-item"><span class="tinfo-ico">📧</span><div><strong>Contacto</strong><span>copiloto237@gmail.com</span></div></div>
+          </div>
+        </div>
+        <div class="tbox-right">
+          <form id="ticketForm" novalidate>
+            <label for="correo">Tu correo electrónico</label>
+            <div class="input-row">
+              <input
+                type="email"
+                id="correo"
+                placeholder="tucorreo@ejemplo.com"
+                autocomplete="email"
+                required
+              />
+              <button type="submit" id="submitBtn">
+                <span id="btnText">Tomar ticket</span>
+                <span id="btnSpinner" class="spinner" style="display:none"></span>
+              </button>
+            </div>
+            <p id="formError" class="form-error"></p>
+          </form>
+          <p class="form-note">Al enviar aceptas que nos contactemos contigo por correo electrónico.</p>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="ticket-success" id="ticketSuccess" style="display:none">
+        <div class="ts-card">
+          <img src="assets/logo.png" alt="ENDEL" class="ts-logo" />
+          <h3>¡Ticket asignado!</h3>
+          <p class="ts-sub">Guarda este código. Lo necesitarás para el seguimiento.</p>
+          <div class="ts-code" id="tsCode">——</div>
+          <p class="ts-email" id="tsEmail">——</p>
+          <p class="ts-note">Te responderemos en <strong>menos de 24 horas</strong> al correo proporcionado.</p>
+          <div class="ts-actions">
+            <button class="btn-copy" id="btnCopy">📋 Copiar código</button>
+            <button class="btn-otro" id="btnOtro">Tomar otro ticket</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="ENDEL" class="footer-logo-img" />
+        <span class="footer-logo">ENDEL<span class="dot">.</span>estudios</span>
+      </div>
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#portafolio">Portafolio</a>
+        <a href="#ticket">Ticket</a>
+      </div>
+      <div class="footer-copy">© 2025 ENDEL Estudios · Tláhuac, CDMX</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
