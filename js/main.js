@@ -119,8 +119,8 @@ form.addEventListener('submit', async (e) => {
 
   } catch (err) {
     setLoading(false);
-    console.error('ER
-});
+    console.error('ERROR:', err);
+};
 
 btnCopy.addEventListener('click', () => {
   navigator.clipboard.writeText(tsCode.textContent).then(() => {
