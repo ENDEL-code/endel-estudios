@@ -120,7 +120,7 @@ form.addEventListener('submit', async (e) => {
 
   } catch (err) {
     setLoading(false);
-    console.error('Formspree error:', err);
+    console.error('Error en el envio (Formspree):', err);
     formError.textContent = 'No se pudo enviar. Intenta de nuevo.';
   }
 });
