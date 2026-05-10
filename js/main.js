@@ -1,4 +1,4 @@
-/* ENDEL Estudios — main.js 
+/* ENDEL Estudios — main.js */
 const FORMSPREE_URL = 'https://formspree.io/f/xykobqvy';
 
 /* LOADER */
@@ -120,7 +120,8 @@ form.addEventListener('submit', async (e) => {
   } catch (err) {
     setLoading(false);
     console.error('ERROR:', err);
-};
+  }
+});
 
 btnCopy.addEventListener('click', () => {
   navigator.clipboard.writeText(tsCode.textContent).then(() => {
@@ -134,5 +135,4 @@ btnOtro.addEventListener('click', () => {
   ticketBox.style.display     = 'grid';
   correoInput.value = '';
   formError.textContent = '';
-});
 });

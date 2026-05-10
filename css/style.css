@@ -681,5 +681,10 @@ ul{list-style:none}
 ═══════════════════════════════════════════════════════ */
 .fade-up {
   opacity: 0;
-  transform: translateY(28)
+  transform: translateY(30px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
