@@ -189,14 +189,16 @@
         <div class="tbox-right">
           <form id="ticketForm" novalidate>
             <label for="correo">Tu correo electrónico</label>
+            <input
+              type="email"
+              id="correo"
+              placeholder="tucorreo@ejemplo.com"
+              autocomplete="email"
+              required
+            />
+            <label for="mensaje">¿En qué te podemos ayudar?</label>
+            <textarea id="mensaje" placeholder="Cuéntanos sobre tu proyecto o duda..." required></textarea>
             <div class="input-row">
-              <input
-                type="email"
-                id="correo"
-                placeholder="tucorreo@ejemplo.com"
-                autocomplete="email"
-                required
-              />
               <button type="submit" id="submitBtn">
                 <span id="btnText">Tomar ticket</span>
                 <span id="btnSpinner" class="spinner" style="display:none"></span>

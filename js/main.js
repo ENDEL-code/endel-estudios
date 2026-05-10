@@ -1,8 +1,6 @@
 /* ENDEL Estudios — main.js */
 
-const EMAILJS_PUBLIC_KEY  = 'y-RXkWqoTCvdoDFH_';
-const EMAILJS_SERVICE_ID  = 'service_nlmublg';
-const EMAILJS_TEMPLATE_ID = '6yy83df';
+const FORMSPREE_URL = 'https://formspree.io/f/xykobqvy';
 
 /* LOADER */
 window.addEventListener('load', () => {
@@ -38,7 +36,7 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 
 /* GENERADOR DE TICKET */
-const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const CHARS = '0123456789ABCDEF';
 const STORAGE_KEY = 'endel_tickets_used';
 
 function getUsedTickets() {
@@ -66,6 +64,7 @@ function generateTicketCode() {
 /* TICKET FORM */
 const form          = document.getElementById('ticketForm');
 const correoInput   = document.getElementById('correo');
+const mensajeInput  = document.getElementById('mensaje'); // Nuevo campo
 const submitBtn     = document.getElementById('submitBtn');
 const btnText       = document.getElementById('btnText');
 const btnSpinner    = document.getElementById('btnSpinner');
@@ -76,8 +75,6 @@ const tsCode        = document.getElementById('tsCode');
 const tsEmail       = document.getElementById('tsEmail');
 const btnCopy       = document.getElementById('btnCopy');
 const btnOtro       = document.getElementById('btnOtro');
-
-emailjs.init(EMAILJS_PUBLIC_KEY);
 
 function setLoading(on) {
   submitBtn.disabled = on;
@@ -90,25 +87,28 @@ form.addEventListener('submit', async (e) => {
   formError.textContent = '';
 
   const email = correoInput.value.trim();
+  const mensaje = mensajeInput ? mensajeInput.value.trim() : '';
+
   if (!email) { formError.textContent = 'Escribe tu correo.'; return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { formError.textContent = 'Correo invalido.'; return; }
-
-  if (typeof emailjs === 'undefined') {
-    console.error('EmailJS SDK no cargado');
-    formError.textContent = 'Error de conexión. Intenta de nuevo.';
-    return;
-  }
+  if (!mensaje) { formError.textContent = 'Dinos en qué podemos ayudarte.'; return; }
 
   setLoading(true);
   const ticketCode = generateTicketCode();
 
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      reply_to:    email,
-      from_email:  email,
-      ticket_code: ticketCode,
-      fecha:       new Date().toLocaleDateString('es-MX'),
+    const response = await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        mensaje: mensaje,
+        ticket: ticketCode,
+        fecha: new Date().toLocaleString()
+      })
     });
+
+    if (!response.ok) throw new Error('Error en Formspree');
 
     saveTicket(ticketCode);
     setLoading(false);
@@ -120,7 +120,7 @@ form.addEventListener('submit', async (e) => {
 
   } catch (err) {
     setLoading(false);
-    console.error('EmailJS error:', err);
+    console.error('Formspree error:', err);
     formError.textContent = 'No se pudo enviar. Intenta de nuevo.';
   }
 });

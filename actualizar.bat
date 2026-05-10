@@ -33,23 +33,22 @@ echo OK - Cloudflare conectado
 
 echo.
 echo Detectando cambios...
-git add -A >nul 2>&1
+git add -A
 
 git diff --cached --quiet >nul 2>&1
 if %errorLevel% neq 0 (
-    echo Cambios detectados:
+    echo [GIT] Guardando cambios en el repositorio...
     git status --short
     git commit -m "Actualizacion ENDEL-estudios"
-    echo OK - Commit listo
-    git push origin %BRANCH%
-    echo OK - Subido a GitHub
+    git push origin %BRANCH% || echo [!] Error al subir a GitHub, intentando desplegar...
 ) else (
-    echo No hay cambios para commit, procediendo al despliegue...
+    echo [GIT] Sin cambios nuevos para guardar en GitHub.
 )
 
 echo.
-echo Desplegando en Cloudflare Pages...
-call wrangler pages deploy . --project-name=%PROJECT_NAME% --branch=%BRANCH% --commit-message="Actualizacion ENDEL-estudios"
+echo [CLOUDFLARE] Desplegando sitio en Cloudflare Pages...
+:: Usamos npx para asegurar la ejecucion de wrangler
+call npx wrangler pages deploy . --project-name=%PROJECT_NAME% --branch=%BRANCH% --commit-message="Actualizacion ENDEL-estudios"
 
 echo.
 echo ============================================

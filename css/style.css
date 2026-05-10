@@ -499,8 +499,10 @@ ul{list-style:none}
   display: flex;
   gap: .8rem;
 }
-.input-row input {
-  flex: 1;
+.tbox-right input,
+.tbox-right textarea {
+  width: 100%;
+  display: block;
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -509,14 +511,21 @@ ul{list-style:none}
   font-size: .95rem;
   padding: .85rem 1.1rem;
   outline: none;
+  margin-bottom: 1.2rem;
   transition: border-color .25s, box-shadow .25s;
 }
-.input-row input::placeholder { color:rgba(90,127,150,.6); }
-.input-row input:focus {
+.tbox-right input:focus,
+.tbox-right textarea:focus {
   border-color: rgba(0,212,255,.4);
   box-shadow: 0 0 0 3px rgba(0,212,255,.08);
 }
+.tbox-right textarea {
+  min-height: 100px;
+  resize: none;
+}
 .input-row button {
+  width: 100%;
+  justify-content: center;
   display: inline-flex;
   align-items: center;
   gap: .5rem;
@@ -670,7 +679,4 @@ ul{list-style:none}
 ═══════════════════════════════════════════════════════ */
 .fade-up {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity .65s var(--ease), transform .65s var(--ease);
-}
-.fade-up.visible { opacity:1;transform:translateY(0); }
+  transform: translateY(28
