@@ -12,9 +12,9 @@
    ⚠ DEBES REEMPLAZAR estos 3 valores con los tuyos
    desde https://www.emailjs.com
 ────────────────────────────────────────────────────── */
-const EMAILJS_PUBLIC_KEY  = 'y-RXkWqoTCvdoDFH_';     // Account > API Keys
-const EMAILJS_SERVICE_ID  = 'nlmublg';     // Email Services
-const EMAILJS_TEMPLATE_ID = '6yy83df';   // Email Templates
+const EMAILJS_PUBLIC_KEY  = 'y-RXkWqoTCvdoDFH_';
+const EMAILJS_SERVICE_ID  = 'service_nlmublg';
+const EMAILJS_TEMPLATE_ID = '6yy83df';
 
 /* ──────────────────────────────────────────────────────
    LOADER
