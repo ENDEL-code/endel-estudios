@@ -1,32 +1,29 @@
 /* ═══════════════════════════════════════════════════════
    ENDEL Estudios — main.js
-   - Loader animado
-   - Navbar scroll + hamburger
-   - IntersectionObserver para fade-up
-   - Generador de tickets únicos 8 chars alfanuméricos
-   - EmailJS: notifica a copiloto237@gmail.com
+   Tickets via Formspree (sin configuracion extra)
+   Solo crea cuenta en formspree.io y reemplaza el FORM_ID
 ═══════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────────────
-   EMAILJS CONFIG
-   ⚠ DEBES REEMPLAZAR estos 3 valores con los tuyos
-   desde https://www.emailjs.com
+   FORMSPREE CONFIG
+   1. Ve a https://formspree.io y crea cuenta gratis
+   2. New Form -> pon tu email copiloto237@gmail.com
+   3. Copia el ID que aparece (ej: xbjvkpqz)
+   4. Reemplaza TU_FORM_ID abajo
 ────────────────────────────────────────────────────── */
-const EMAILJS_PUBLIC_KEY  = 'y-RXkWqoTCvdoDFH_';
-const EMAILJS_SERVICE_ID  = 'service_nlmublg';
-const EMAILJS_TEMPLATE_ID = '6yy83df';
+const FORMSPREE_ID = 'xykobqvy';
+
 /* ──────────────────────────────────────────────────────
    LOADER
 ────────────────────────────────────────────────────── */
 window.addEventListener('load', () => {
-  // Espera que la barra termine (1.6s) + un pequeño margen
   setTimeout(() => {
     document.getElementById('loader').classList.add('hide');
   }, 1900);
 });
 
 /* ──────────────────────────────────────────────────────
-   NAVBAR — scroll + hamburger
+   NAVBAR
 ────────────────────────────────────────────────────── */
 const navbar    = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
@@ -45,7 +42,7 @@ navLinks.querySelectorAll('a').forEach(a => {
 });
 
 /* ──────────────────────────────────────────────────────
-   FADE-UP  (IntersectionObserver)
+   FADE-UP
 ────────────────────────────────────────────────────── */
 const io = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
@@ -59,16 +56,14 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 
 /* ──────────────────────────────────────────────────────
-   GENERADOR DE TICKET ÚNICO (8 chars alfanumérico)
-   Guarda los usados en localStorage para no repetir
+   GENERADOR DE TICKET UNICO (8 chars alfanumerico)
 ────────────────────────────────────────────────────── */
-const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sin O,0,I,1 para evitar confusión
+const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const STORAGE_KEY = 'endel_tickets_used';
 
 function getUsedTickets() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
 }
 
 function saveTicket(code) {
@@ -85,11 +80,7 @@ function generateTicketCode() {
       CHARS[Math.floor(Math.random() * CHARS.length)]
     ).join('');
     attempts++;
-    if (attempts > 500) {
-      // Prácticamente imposible, pero por si acaso
-      console.warn('ENDEL: muchos tickets generados en este dispositivo.');
-      break;
-    }
+    if (attempts > 500) break;
   } while (used.includes(code));
   return code;
 }
@@ -110,12 +101,9 @@ const tsEmail       = document.getElementById('tsEmail');
 const btnCopy       = document.getElementById('btnCopy');
 const btnOtro       = document.getElementById('btnOtro');
 
-// Inicializar EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
-
 function setLoading(on) {
   submitBtn.disabled = on;
-  btnText.style.display    = on ? 'none'   : 'inline';
+  btnText.style.display    = on ? 'none' : 'inline';
   btnSpinner.style.display = on ? 'inline-block' : 'none';
 }
 
@@ -126,64 +114,55 @@ form.addEventListener('submit', async (e) => {
   const email = correoInput.value.trim();
 
   if (!email) {
-    formError.textContent = '⚠ Escribe tu correo electrónico.';
+    formError.textContent = 'Escribe tu correo electronico.';
     return;
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    formError.textContent = '⚠ El correo no tiene un formato válido.';
+    formError.textContent = 'El correo no tiene un formato valido.';
     return;
   }
 
   setLoading(true);
 
   const ticketCode = generateTicketCode();
-  const ahora      = new Date();
-  const fecha      = ahora.toLocaleString('es-MX', {
-    dateStyle: 'long',
-    timeStyle: 'short',
-    timeZone: 'America/Mexico_City'
-  });
 
   try {
-    // Envía email a copiloto237@gmail.com
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email:    'copiloto237@gmail.com',
-      reply_to:    email,             // ← al responder el email, va directo al cliente
-      from_email:  email,
-      ticket_code: ticketCode,
-      fecha:       fecha,
-      // Mensaje que llega a tu correo:
-      mensaje: `${email} ha tomado el ticket #${ticketCode} el ${fecha}.`,
+    const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email:       email,
+        ticket:      ticketCode,
+        mensaje:     email + ' ha tomado el ticket #' + ticketCode,
+        _replyto:    email,
+        _subject:    'Nuevo ticket ' + ticketCode + ' — ENDEL Estudios'
+      })
     });
 
-    // Guardar ticket localmente para no repetirlo
-    saveTicket(ticketCode);
+    if (!res.ok) throw new Error('Error ' + res.status);
 
-    // Mostrar pantalla de éxito
+    saveTicket(ticketCode);
     setLoading(false);
     ticketBox.style.display     = 'none';
     ticketSuccess.style.display = 'flex';
     tsCode.textContent  = ticketCode;
-    tsEmail.textContent = `Enviado a: ${email}`;
+    tsEmail.textContent = 'Enviado desde: ' + email;
     form.reset();
 
   } catch (err) {
     setLoading(false);
-    console.error('EmailJS error:', err);
-    formError.textContent = '⚠ No se pudo enviar. Revisa tu conexión e intenta de nuevo.';
+    console.error('Error:', err);
+    formError.textContent = 'No se pudo enviar. Revisa tu conexion e intenta de nuevo.';
   }
 });
 
-/* ── Copiar código ────────────────────────────────── */
 btnCopy.addEventListener('click', () => {
-  const code = tsCode.textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    btnCopy.textContent = '✔ Copiado';
-    setTimeout(() => { btnCopy.textContent = '📋 Copiar código'; }, 2000);
+  navigator.clipboard.writeText(tsCode.textContent).then(() => {
+    btnCopy.textContent = 'Copiado';
+    setTimeout(() => { btnCopy.textContent = 'Copiar codigo'; }, 2000);
   });
 });
 
-/* ── Otro ticket ──────────────────────────────────── */
 btnOtro.addEventListener('click', () => {
   ticketSuccess.style.display = 'none';
   ticketBox.style.display     = 'grid';
