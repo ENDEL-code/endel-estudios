@@ -135,3 +135,4 @@ btnOtro.addEventListener('click', () => {
   correoInput.value = '';
   formError.textContent = '';
 });
+});
