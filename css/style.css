@@ -217,16 +217,17 @@ ul{list-style:none}
 /* Logo decorativo de fondo en hero */
 .hero-logo-bg {
   position: absolute;
-  right: -60px;
+  right: -5%;
   top: 50%;
   transform: translateY(-50%);
   z-index: 0;
   opacity: .04;
   pointer-events: none;
+  overflow: hidden;
 }
 .hero-logo-bg img {
-  width: 620px;
-  height: 620px;
+  width: 45vw;
+  max-width: 620px;
   object-fit: contain;
   filter: invert(1);
 }
@@ -250,7 +251,7 @@ ul{list-style:none}
 }
 .hero-title {
   font-family: var(--fd);
-  font-size: clamp(3rem,7vw,5.8rem);
+  font-size: clamp(2.2rem, 10vw, 5.8rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -.02em;
@@ -323,7 +324,20 @@ ul{list-style:none}
 }
 @media(max-width:768px){
   .hero{padding:6rem 1.5rem 3rem}
-  .hero-badge,.hero-logo-bg{display:none}
+  .hero-logo-bg { 
+    right: 50%; 
+    top: 45%;
+    transform: translate(50%, -50%); 
+    opacity: .05; 
+  }
+  .hero-logo-bg img {
+    width: 85vw;
+    max-width: none;
+  }
+  .hero-badge { width: 120px; height: 120px; right: 4%; bottom: 5%; }
+  .hero-content { max-width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; }
+  .hero-sub { margin-left: auto; margin-right: auto; }
+  .hero-cta { justify-content: center; }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -333,11 +347,13 @@ ul{list-style:none}
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  padding: 2.5rem 2rem;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
   background: var(--bg2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  text-align: center;
 }
 .logo-divider img {
   width: 28px;
@@ -471,8 +487,8 @@ ul{list-style:none}
 }
 .ticket-box {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 4rem;
+  grid-template-columns: 240px 1fr;
+  gap: 3rem;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -649,13 +665,15 @@ ul{list-style:none}
 }
 .btn-otro:hover { color:var(--text);border-color:rgba(100,180,255,.3); }
 
-@media(max-width:860px){
-  .ticket-box{grid-template-columns:1fr;gap:2rem;padding:2rem}
-  .tbox-left{flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+@media(max-width:1024px){
+  .ticket-box{ grid-template-columns: 1fr; gap: 2.5rem; padding: 2rem; }
+  .tbox-left{ flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; }
   .tbox-logo{width:48px;height:48px}
+  .tinfo-list { flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
 }
 @media(max-width:520px){
   .input-row{flex-direction:column}
+  .tbox-left { flex-direction: column; align-items: flex-start; }
 }
 
 /* ═══════════════════════════════════════════════════════
