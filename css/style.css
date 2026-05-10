@@ -21,6 +21,7 @@ a{color:inherit;text-decoration:none}
 ul{list-style:none}
 .container{max-width:1140px;margin:0 auto;padding:0 2rem}
 .dot{color:var(--accent)}
+.is-hidden{display:none !important}
 
 /* ═══════════════════════════════════════════════════════
    LOADER
@@ -416,6 +417,11 @@ ul{list-style:none}
   transition: transform .3s;
 }
 .pi:hover{transform:scale(1.02)}
+.pi-h-160{--h:160}
+.pi-h-180{--h:180}
+.pi-h-200{--h:200}
+.pi-h-220{--h:220}
+.pi-h-240{--h:240}
 .pi-lg  { grid-column:span 2;aspect-ratio:16/9; }
 .pi-wide{ grid-column:span 2;aspect-ratio:16/7; }
 .pi-content {
