@@ -147,19 +147,19 @@
       <span class="section-label">— Nuestro trabajo</span>
       <h2 class="section-title">Portafolio</h2>
       <div class="portfolio-grid">
-        <div class="pi pi-lg pi-h-200 fade-up">
+        <div class="pi pi-lg fade-up" style="--h:200">
           <div class="pi-content"><span class="pi-cat">Web App</span><h3>Proyecto Aurora</h3><span class="pi-arr">↗</span></div>
         </div>
-        <div class="pi pi-h-160 fade-up">
+        <div class="pi fade-up" style="--h:160">
           <div class="pi-content"><span class="pi-cat">Branding</span><h3>Marca Nexus</h3><span class="pi-arr">↗</span></div>
         </div>
-        <div class="pi pi-h-240 fade-up">
+        <div class="pi fade-up" style="--h:240">
           <div class="pi-content"><span class="pi-cat">E-Commerce</span><h3>Shop Vertex</h3><span class="pi-arr">↗</span></div>
         </div>
-        <div class="pi pi-wide pi-h-180 fade-up">
+        <div class="pi pi-wide fade-up" style="--h:180">
           <div class="pi-content"><span class="pi-cat">Dashboard</span><h3>Panel Lumina</h3><span class="pi-arr">↗</span></div>
         </div>
-        <div class="pi pi-h-220 fade-up">
+        <div class="pi fade-up" style="--h:220">
           <div class="pi-content"><span class="pi-cat">UI/UX</span><h3>App Drift</h3><span class="pi-arr">↗</span></div>
         </div>
       </div>
@@ -199,7 +199,7 @@
               />
               <button type="submit" id="submitBtn">
                 <span id="btnText">Tomar ticket</span>
-                <span id="btnSpinner" class="spinner is-hidden"></span>
+                <span id="btnSpinner" class="spinner" style="display:none"></span>
               </button>
             </div>
             <p id="formError" class="form-error"></p>
@@ -209,7 +209,7 @@
       </div>
 
       <!-- SUCCESS -->
-      <div class="ticket-success is-hidden" id="ticketSuccess">
+      <div class="ticket-success" id="ticketSuccess" style="display:none">
         <div class="ts-card">
           <img src="assets/logo.png" alt="ENDEL" class="ts-logo" />
           <h3>¡Ticket asignado!</h3>

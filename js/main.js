@@ -81,8 +81,8 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 
 function setLoading(on) {
   submitBtn.disabled = on;
-  btnText.classList.toggle('is-hidden', on);
-  btnSpinner.classList.toggle('is-hidden', !on);
+  btnText.style.display    = on ? 'none' : 'inline';
+  btnSpinner.style.display = on ? 'inline-block' : 'none';
 }
 
 form.addEventListener('submit', async (e) => {
@@ -106,8 +106,8 @@ form.addEventListener('submit', async (e) => {
 
     saveTicket(ticketCode);
     setLoading(false);
-    ticketBox.classList.add('is-hidden');
-    ticketSuccess.classList.remove('is-hidden');
+    ticketBox.style.display     = 'none';
+    ticketSuccess.style.display = 'flex';
     tsCode.textContent  = ticketCode;
     tsEmail.textContent = 'Enviado desde: ' + email;
     form.reset();
@@ -127,8 +127,8 @@ btnCopy.addEventListener('click', () => {
 });
 
 btnOtro.addEventListener('click', () => {
-  ticketSuccess.classList.add('is-hidden');
-  ticketBox.classList.remove('is-hidden');
+  ticketSuccess.style.display = 'none';
+  ticketBox.style.display     = 'grid';
   correoInput.value = '';
   formError.textContent = '';
 });
