@@ -93,6 +93,12 @@ form.addEventListener('submit', async (e) => {
   if (!email) { formError.textContent = 'Escribe tu correo.'; return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { formError.textContent = 'Correo invalido.'; return; }
 
+  if (typeof emailjs === 'undefined') {
+    console.error('EmailJS SDK no cargado');
+    formError.textContent = 'Error de conexión. Intenta de nuevo.';
+    return;
+  }
+
   setLoading(true);
   const ticketCode = generateTicketCode();
 

@@ -38,13 +38,13 @@ git add -A >nul 2>&1
 git diff --cached --quiet >nul 2>&1
 if %errorLevel% neq 0 (
     echo Cambios detectados:
-    git diff --cached --name-only
+    git status --short
     git commit -m "Actualizacion ENDEL-estudios"
     echo OK - Commit listo
     git push origin %BRANCH%
     echo OK - Subido a GitHub
 ) else (
-    echo No hay cambios nuevos.
+    echo No hay cambios para commit, procediendo al despliegue...
 )
 
 echo.
