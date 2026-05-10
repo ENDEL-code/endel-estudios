@@ -186,7 +186,7 @@ if %errorLevel% neq 0 (
     echo OK - Proyecto ya existe
 )
 echo Desplegando...
-call wrangler pages deploy "%~dp0" --project-name=%PROJECT_NAME% --branch=%BRANCH% --commit-message="Primer deploy ENDEL-estudios"
+call wrangler pages deploy . --project-name=%PROJECT_NAME% --branch=%BRANCH% --commit-message="Primer deploy ENDEL-estudios"
 
 echo.
 echo ============================================
