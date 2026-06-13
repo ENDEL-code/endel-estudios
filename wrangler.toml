@@ -1,0 +1,15 @@
+name = "endel-estudios-api"
+main = "worker/index.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "endel-estudios-db"
+database_id = "REEMPLAZAR_CON_ID_DE_D1"
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "endel-estudios-files"
+
+[vars]
+ADMIN_PASSWORD = "endel47362512026"
