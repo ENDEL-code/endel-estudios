@@ -1,5 +1,5 @@
 // ENDEL Estudios — Cloudflare Worker API
-// Maneja: tickets, estados, archivos (R2), admin
+// DB: D1 | Archivos: KV
 
 const ADMIN_PASSWORD = 'endel47362512026';
 
@@ -41,7 +41,6 @@ export default {
 
       if (!ticket) return err('Ticket no encontrado', 404);
 
-      // No mostrar archivos ni codigo de entrega si no está entregado
       if (ticket.estado !== 'entregado') {
         return json({
           code: ticket.code,
@@ -73,15 +72,17 @@ export default {
 
       if (!ticket) return err('Codigo de entrega incorrecto', 403);
 
-      // Obtener lista de archivos de R2
+      // Listar archivos desde KV
       const archivos = [];
       try {
         const lista = await env.STORAGE.list({ prefix: ticket_code + '/' });
-        for (const obj of lista.objects) {
+        for (const key of lista.keys) {
+          const meta = key.metadata || {};
           archivos.push({
-            nombre: obj.key.replace(ticket_code + '/', ''),
-            key: obj.key,
-            size: obj.size,
+            nombre: key.name.replace(ticket_code + '/', ''),
+            key: key.name,
+            size: meta.size || 0,
+            type: meta.type || '',
           });
         }
       } catch (e) {}
@@ -93,12 +94,9 @@ export default {
       });
     }
 
-    // ── GET /api/archivo/:key — descargar archivo
+    // ── GET /api/archivo — descargar archivo desde KV
     if (method === 'GET' && path.startsWith('/api/archivo/')) {
       const key = decodeURIComponent(path.replace('/api/archivo/', ''));
-      const auth = request.headers.get('Authorization');
-
-      // Verificar que el codigo de desbloqueo sea valido
       const unlock = url.searchParams.get('unlock');
       const ticketCode = key.split('/')[0];
 
@@ -110,39 +108,37 @@ export default {
         return err('No autorizado', 403);
       }
 
-      const obj = await env.STORAGE.get(key);
-      if (!obj) return err('Archivo no encontrado', 404);
+      const obj = await env.STORAGE.getWithMetadata(key, { type: 'arrayBuffer' });
+      if (!obj || !obj.value) return err('Archivo no encontrado', 404);
 
-      const headers = {
-        ...CORS,
-        'Content-Disposition': `attachment; filename="${key.split('/').pop()}"`,
-        'Content-Type': obj.httpMetadata?.contentType || 'application/octet-stream',
-      };
-
-      return new Response(obj.body, { headers });
+      const meta = obj.metadata || {};
+      return new Response(obj.value, {
+        headers: {
+          ...CORS,
+          'Content-Disposition': `attachment; filename="${key.split('/').pop()}"`,
+          'Content-Type': meta.type || 'application/octet-stream',
+        },
+      });
     }
 
     // ══════════════════════════════════════════════
-    // ADMIN — requiere password en Authorization
+    // ADMIN
     // ══════════════════════════════════════════════
     const authHeader = request.headers.get('Authorization') || '';
     const isAdmin = authHeader === 'Bearer ' + ADMIN_PASSWORD;
 
-    // ── GET /api/admin/tickets — listar todos los tickets
+    // ── GET /api/admin/tickets
     if (method === 'GET' && path === '/api/admin/tickets') {
       if (!isAdmin) return err('No autorizado', 403);
-
       const { results } = await env.DB.prepare(
         'SELECT * FROM tickets ORDER BY fecha DESC'
       ).all();
-
       return json(results);
     }
 
-    // ── PUT /api/admin/ticket/:code — actualizar estado, nota, unlock_code
+    // ── PUT /api/admin/ticket/:code
     if (method === 'PUT' && path.startsWith('/api/admin/ticket/')) {
       if (!isAdmin) return err('No autorizado', 403);
-
       const code = path.split('/')[4];
       const body = await request.json();
       const { estado, nota_publica, nota_entrega, unlock_code } = body;
@@ -154,22 +150,21 @@ export default {
           nota_entrega = COALESCE(?, nota_entrega),
           unlock_code = COALESCE(?, unlock_code)
         WHERE code = ?`
-      ).bind(estado || null, nota_publica || null, nota_entrega || null, unlock_code || null, code).run();
+      ).bind(estado||null, nota_publica||null, nota_entrega||null, unlock_code||null, code).run();
 
       return json({ ok: true });
     }
 
-    // ── DELETE /api/admin/ticket/:code — borrar ticket
+    // ── DELETE /api/admin/ticket/:code
     if (method === 'DELETE' && path.startsWith('/api/admin/ticket/')) {
       if (!isAdmin) return err('No autorizado', 403);
-
       const code = path.split('/')[4];
 
-      // Borrar archivos de R2
+      // Borrar archivos de KV
       try {
         const lista = await env.STORAGE.list({ prefix: code + '/' });
-        for (const obj of lista.objects) {
-          await env.STORAGE.delete(obj.key);
+        for (const key of lista.keys) {
+          await env.STORAGE.delete(key.name);
         }
       } catch (e) {}
 
@@ -177,18 +172,15 @@ export default {
       return json({ ok: true });
     }
 
-    // ── POST /api/admin/ticket — crear ticket desde admin (o llegada del form)
+    // ── POST /api/admin/ticket — registrar ticket nuevo
     if (method === 'POST' && path === '/api/admin/ticket') {
       const body = await request.json();
       const { code, email } = body;
-
       if (!code || !email) return err('code y email requeridos');
 
-      // Verificar que no exista
       const exists = await env.DB.prepare(
         'SELECT code FROM tickets WHERE code = ?'
       ).bind(code).first();
-
       if (exists) return err('Ticket ya existe');
 
       await env.DB.prepare(
@@ -199,31 +191,43 @@ export default {
       return json({ ok: true, code });
     }
 
-    // ── POST /api/admin/upload/:code — subir archivo a R2
+    // ── POST /api/admin/upload/:code — subir archivo a KV
     if (method === 'POST' && path.startsWith('/api/admin/upload/')) {
       if (!isAdmin) return err('No autorizado', 403);
-
       const code = path.split('/')[4];
       const fileName = url.searchParams.get('filename');
       if (!fileName) return err('filename requerido');
 
-      const key = code + '/' + fileName;
       const contentType = request.headers.get('Content-Type') || 'application/octet-stream';
+      const buffer = await request.arrayBuffer();
+      const key = code + '/' + fileName;
 
-      await env.STORAGE.put(key, request.body, {
-        httpMetadata: { contentType },
+      await env.STORAGE.put(key, buffer, {
+        metadata: { type: contentType, size: buffer.byteLength }
       });
 
       return json({ ok: true, key });
     }
 
-    // ── DELETE /api/admin/archivo — borrar archivo de R2
+    // ── DELETE /api/admin/archivo/:key — borrar archivo de KV
     if (method === 'DELETE' && path.startsWith('/api/admin/archivo/')) {
       if (!isAdmin) return err('No autorizado', 403);
-
       const key = decodeURIComponent(path.replace('/api/admin/archivo/', ''));
       await env.STORAGE.delete(key);
       return json({ ok: true });
+    }
+
+    // ── GET /api/admin/archivos/:code — listar archivos de un ticket
+    if (method === 'GET' && path.startsWith('/api/admin/archivos/')) {
+      if (!isAdmin) return err('No autorizado', 403);
+      const code = path.split('/')[4];
+      const lista = await env.STORAGE.list({ prefix: code + '/' });
+      const archivos = lista.keys.map(k => ({
+        nombre: k.name.replace(code + '/', ''),
+        key: k.name,
+        size: (k.metadata || {}).size || 0,
+      }));
+      return json(archivos);
     }
 
     return err('Ruta no encontrada', 404);

@@ -5,11 +5,11 @@ compatibility_date = "2024-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "endel-estudios-db"
-database_id = "REEMPLAZAR_CON_ID_DE_D1"
+database_id = "7d0d9674-eb16-4a53-8719-5fe632d031fa"
 
-[[r2_buckets]]
+[[kv_namespaces]]
 binding = "STORAGE"
-bucket_name = "endel-estudios-files"
+id = "8727a686d74d40b18813ddccfc1588af"
 
 [vars]
 ADMIN_PASSWORD = "endel47362512026"
