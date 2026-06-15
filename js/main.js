@@ -110,6 +110,13 @@ form.addEventListener('submit', async (e) => {
     if (!response.ok) throw new Error('Error en Formspree');
 
     saveTicket(ticketCode);
+
+// Registrar ticket en la base de datos
+fetch('https://endel-estudios-api.endel-code.workers.dev/api/admin/ticket', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ code: ticketCode, email: email })
+}).catch(() => {});
     setLoading(false);
     ticketBox.style.display     = 'none';
     ticketSuccess.style.display = 'flex';
