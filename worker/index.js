@@ -188,7 +188,7 @@ export default {
          VALUES (?, ?, 'pendiente', datetime('now'))`
       ).bind(code, email).run();
 
-      return json({ ok: true, code });
+    return json({ ok: true, code });
     }
 
     // ── POST /api/admin/upload/:code — subir archivo a KV

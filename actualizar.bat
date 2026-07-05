@@ -21,7 +21,7 @@ if not exist "%~dp0index.html" (
 )
 
 git --version >nul 2>&1
-if %errorLevel% neq 0 ( echo ERROR: Ejecuta instalar.bat primero. & pause & exit /b 1 )
+if %errorLevel% neq 0 ( echo ERROR: Ejecuta instalar.bat primero. & pause & exit /b 1)
 
 call gh auth status >nul 2>&1
 if %errorLevel% neq 0 ( call gh auth login --web --git-protocol https )
