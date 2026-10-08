@@ -22,44 +22,7 @@ endel-estudios/
 
 ## ⚙️ Configurar EmailJS (OBLIGATORIO para que lleguen los emails)
 
-### 1. Crear cuenta
-Ve a https://www.emailjs.com y regístrate gratis.
 
-### 2. Conectar tu Gmail
-- Panel → **Email Services** → **Add New Service**
-- Selecciona **Gmail**
-- Autoriza con `copiloto237@gmail.com`
-- Copia el **Service ID** (ej. `service_abc123`)
-
-### 3. Crear plantilla
-- Panel → **Email Templates** → **Create New Template**
-- En **To Email**: `copiloto237@gmail.com`
-- En **Reply To**: `{{reply_to}}`
-- **Subject**: `🎫 Nuevo ticket {{ticket_code}} — ENDEL Estudios`
-- **Body**:
-```
-{{from_email}} ha tomado el ticket #{{ticket_code}}
-
-Fecha: {{fecha}}
-
-Responde directamente a este correo para contactar al cliente.
-```
-- Guarda y copia el **Template ID** (ej. `template_xyz789`)
-
-### 4. Copiar tu Public Key
-- Panel → **Account** → **API Keys**
-- Copia la **Public Key** (ej. `user_AbCdEfG`)
-
-### 5. Pegar en el código
-Abre `js/main.js` y reemplaza las 3 líneas al inicio:
-
-```js
-const EMAILJS_PUBLIC_KEY  = 'TU_PUBLIC_KEY';    // ← tu Public Key
-const EMAILJS_SERVICE_ID  = 'TU_SERVICE_ID';    // ← tu Service ID
-const EMAILJS_TEMPLATE_ID = 'TU_TEMPLATE_ID';   // ← tu Template ID
-```
-
----
 
 ## 🚀 Levantar la web
 
@@ -85,3 +48,29 @@ bash instalar.sh
 - Te llega un email a `copiloto237@gmail.com` con el correo del cliente
 - Respondes el email directamente → llega al cliente
 - Los códigos usados se guardan localmente para no repetirse
+ ---
+
+## Creacion
+Esta web fue creada por el equipo de desarrollo Endel estudios
+conformado por 
+- Leonardo CUmbres Espinosa (ENDEL) 
+- Antonio (Kalebs)
+- Tobias (TOBI.HI)
+- Saul D. T. (ERROR_DU)
+con ayuda de las herramientas de diseño e IA de ANTROPHIC (claude)
+Fecha 10/11/2025 -  23/12/2025 Tlahuac CDMX 
+con base a esta nueva web yo ENDEL declaro el inicio deel primer intento de que este estudio no decaiga o se quede en local 
+
+---
+## ACTUALIZACIONES 
+- 1.0 cracion base (esto espera algo bueno) 28/12/2025
+- 1.0.2 cambio de esquema sql 15/01/2026
+- 1.2 se agrega video de youtube gracias a proyecto escolar( Norma Pradel Blancas) 20/01/2026
+- 1.2.2 se agrega mejor dioseño en el css 16/02/2026
+- 1.2.3 se fusiona css y js a los html 18/02/2026
+- 1.2.3 se crea cliente y admin html 20/02/2026
+- 1.3.0 se pasa de netlify drop a CLOUDFLARED para mayor fiabilidad en seguridad 11/03/2026
+- 1.3.1 se agrega asistenci de ENDELos Para mayor estabilidad 14/06/2026
+
+## PENDIENRTES
+- Endel Bot
